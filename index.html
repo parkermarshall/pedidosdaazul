@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aline Vitalino Doces Gourmet</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #ffeeee;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .logo-container img {
+      max-width: 200px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #b30000;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    input[readonly] {
+      background-color: #f5f5f5;
+      color: #555;
+    }
+
+    .inline-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .add-btn {
+      background-color: #ff6666;
+    }
+
+    .order-btn {
+      background-color: #28a745;
+    }
+
+    .clear-btn {
+      background-color: #999;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ccc;
+      margin: 20px 0;
+    }
+
+    .pedido-lista {
+      font-size: 16px;
+      margin-bottom: 15px;
+      white-space: pre-wrap;
+    }
+
+    .pedido-total {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    footer {
+      margin-top: auto;
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+      background-color: #fff0f0;
+      font-size: 14px;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-container">
+    <img src="https://i.imgur.com/1W2L9KK.jpeg" alt="Logo Aline Vitalino Doces Gourmet" />
+  </div>
+
+  <h1>Faça Sua Encomenda Aqui!</h1>
+
+  <form id="pedidoForm">
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" required />
+
+    <label for="telefone">Telefone:</label>
+    <input type="tel" id="telefone" required placeholder="(99) 99999-9999" pattern="[\d\s\-\+\(\)]+" />
+
+    <label for="data">Data:</label>
+    <input type="date" id="data" readonly />
+
+    <label for="produtos">Produtos:</label>
+    <select id="produtos" required>
+      <option value="">Carregando...</option>
+    </select>
+
+    <label for="quantidade">Quantidade:</label>
+    <input type="number" id="quantidade" min="1" value="1" required />
+
+    <div class="inline-buttons">
+      <button type="button" class="add-btn" onclick="adicionarCarrinho()">Adicionar ao Carrinho</button>
+      <button type="button" class="clear-btn" onclick="limparFormulario()">Apagar</button>
+    </div>
+
+    <hr />
+
+    <div class="pedido-lista" id="listaPedidos">
+      Nenhum item no carrinho.
+    </div>
+
+    <div class="pedido-total" id="totalPedido">
+      Total: R$ 0,00
+    </div>
+
+    <hr />
+
+    <label for="valor">Valor Total (R$):</label>
+    <input type="number" id="valor" readonly />
+
+    <label for="vendedor">Vendedor:</label>
+    <input type="text" id="vendedor" value="Isa" readonly />
+
+    <div class="buttons">
+      <button type="submit" class="order-btn">Fazer Pedido</button>
+    </div>
+  </form>
+
+  <footer>
+    Aline Vitalino Doces Gourmet - 2025
+  </footer>
+
+  <script>
+    const produtosFirebase = {};
+    const carrinho = [];
+
+    const TELEGRAM_BOT_TOKEN = '7606421931:AAEKx9TdlH8xQAElgplPjEKq1K7Px33d4DA';
+    const TELEGRAM_CHAT_ID = '7863276089';
+
+    window.onload = function () {
+      const hoje = new Date().toISOString().split("T")[0];
+      document.getElementById("data").value = hoje;
+      carregarProdutos();
+    };
+
+    function carregarProdutos() {
+      fetch("https://testepedidosstatus-default-rtdb.europe-west1.firebasedatabase.app/.json")
+        .then(response => response.json())
+        .then(data => {
+          const select = document.getElementById("produtos");
+          select.innerHTML = '<option value="">Selecione um produto</option>';
+          for (const produto in data) {
+            produtosFirebase[produto] = parseFloat(data[produto]);
+            const option = document.createElement("option");
+            option.value = produto;
+            option.textContent = `${produto} (R$ ${data[produto]})`;
+            select.appendChild(option);
+          }
+        })
+        .catch(() => {
+          document.getElementById("produtos").innerHTML = '<option value="">Erro ao carregar produtos</option>';
+        });
+    }
+
+    function adicionarCarrinho() {
+      const produtoSelecionado = document.getElementById("produtos").value;
+      const quantidade = parseInt(document.getElementById("quantidade").value);
+
+      if (!produtoSelecionado || quantidade <= 0) {
+        alert("Selecione um produto válido e quantidade maior que 0.");
+        return;
+      }
+
+      const precoUnitario = produtosFirebase[produtoSelecionado];
+      const subtotal = precoUnitario * quantidade;
+
+      carrinho.push({ produto: produtoSelecionado, quantidade, subtotal });
+
+      atualizarListaCarrinho();
+    }
+
+    function atualizarListaCarrinho() {
+      const lista = document.getElementById("listaPedidos");
+      const totalDiv = document.getElementById("totalPedido");
+      const valorCampo = document.getElementById("valor");
+
+      if (carrinho.length === 0) {
+        lista.textContent = "Nenhum item no carrinho.";
+        totalDiv.textContent = "Total: R$ 0,00";
+        valorCampo.value = "";
+        return;
+      }
+
+      lista.innerHTML = "";
+      let total = 0;
+
+      carrinho.forEach(item => {
+        const linha = document.createElement("div");
+        linha.textContent = `${item.quantidade}x ${item.produto} R$ ${item.subtotal.toFixed(2)}`;
+        lista.appendChild(linha);
+        total += item.subtotal;
+      });
+
+      totalDiv.textContent = `Total: R$ ${total.toFixed(2)}`;
+      valorCampo.value = total.toFixed(2);
+    }
+
+    function limparFormulario() {
+      document.getElementById("pedidoForm").reset();
+      document.getElementById("data").value = new Date().toISOString().split("T")[0];
+      document.getElementById("vendedor").value = "Isa";
+      carrinho.length = 0;
+      atualizarListaCarrinho();
+    }
+
+    async function enviarPedidoTelegram(mensagem) {
+      const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+      const payload = {
+        chat_id: TELEGRAM_CHAT_ID,
+        text: mensagem,
+        parse_mode: "Markdown"
+      };
+
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        return data.ok;
+      } catch {
+        return false;
+      }
+    }
+
+    document.getElementById("pedidoForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      if (carrinho.length === 0) {
+        alert("Adicione pelo menos um item ao carrinho antes de enviar o pedido.");
+        return;
+      }
+
+      const nomeCliente = document.getElementById("nome").value.trim();
+      const telefone = document.getElementById("telefone").value.trim();
+
+      if (!nomeCliente) {
+        alert("Por favor, preencha o nome do cliente.");
+        return;
+      }
+
+      if (!telefone) {
+        alert("Por favor, preencha o telefone do cliente.");
+        return;
+      }
+
+      const valorTotal = document.getElementById("valor").value;
+
+      let listaProdutosStr = "";
+      carrinho.forEach(item => {
+        listaProdutosStr += `${item.quantidade}x ${item.produto} R$ ${item.subtotal.toFixed(2)}\n`;
+      });
+
+      const mensagemTelegram =
+        `*Novo Pedido Azul*\n` +
+        `-----------------------------------\n` +
+        `👤Cliente: ${nomeCliente}\n` +
+        `📞Fone: ${telefone}\n` +
+        `💵Valor: R$ ${valorTotal}\n` +
+        `📦Produtos:\n${listaProdutosStr}` +
+        `-----------------------------------`;
+
+      const sucesso = await enviarPedidoTelegram(mensagemTelegram);
+
+      if (sucesso) {
+        alert("Pedido enviado com sucesso ao Telegram!");
+        this.reset();
+        document.getElementById("data").value = new Date().toISOString().split("T")[0];
+        document.getElementById("vendedor").value = "Isa";
+        carrinho.length = 0;
+        atualizarListaCarrinho();
+      } else {
+        alert("Erro ao enviar o pedido. Tente novamente.");
+      }
+    });
+  </script>
+</body>
+</html>
