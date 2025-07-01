@@ -1,360 +1,460 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Aline Vitalino Doces Gourmet</title>
-  <style>
-    :root {
-      --rosa-claro: #ffeeee;
-      --primaria: #c75b7c;
-      --fundo: #fff;
-      --borda: #ccc;
-      --texto: #333;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Aline Vitalino Doces Gourmet</title>
 
-    * {
-      box-sizing: border-box;
-    }
+<!-- Favicon -->
+<link rel="icon" href="https://i.imgur.com/LYUmBId.png" type="image/png" />
 
-    body {
-      margin: 0;
-      padding: 0;
-      background: var(--rosa-claro);
-      font-family: 'Segoe UI', sans-serif;
-      color: var(--texto);
-    }
-
-    .splash {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: var(--rosa-claro);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
-    }
-
-    .splash img {
-      max-width: 180px;
-      border-radius: 16px;
-      margin-bottom: 20px;
-    }
-
-    .progress-bar {
-      width: 160px;
-      height: 8px;
-      background: #fff;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: var(--primaria);
-      animation: loadBar 2s linear forwards;
-    }
-
-    @keyframes loadBar {
-      from { width: 0%; }
-      to { width: 100%; }
-    }
-
-    .app-container {
-      max-width: 480px;
-      margin: auto;
-      padding: 16px;
-      background: var(--fundo);
-      border-radius: 16px 16px 0 0;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    img.logo {
-      display: block;
-      margin: 0 auto;
-      max-width: 120px;
-      border-radius: 16px;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 1.4rem;
-      margin: 16px 0;
-    }
-
-    form label {
-      display: block;
-      margin-top: 12px;
-      margin-bottom: 4px;
-      font-weight: bold;
-    }
-
-    form input,
-    form select {
-      width: 100%;
-      padding: 10px;
-      font-size: 1rem;
-      border: 1px solid var(--borda);
-      border-radius: 10px;
-      outline: none;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .btn-group button,
-    button[type="submit"] {
-      flex: 1;
-      padding: 12px;
-      font-size: 1rem;
-      background: var(--primaria);
-      border: none;
-      color: white;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    .btn-group button:hover,
-    button[type="submit"]:hover {
-      background: #a74465;
-    }
-
-    button[disabled] {
-      background: #ccc;
-      cursor: not-allowed;
-    }
-
-    #listaPedidos {
-      margin-top: 16px;
-      font-size: 0.95rem;
-      background: #f9f9f9;
-      padding: 10px;
-      border-radius: 10px;
-    }
-
-    .item-carrinho {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .item-carrinho button {
-      background: none;
-      border: none;
-      color: red;
-      font-size: 1.2rem;
-      cursor: pointer;
-      line-height: 1;
-      padding: 0 6px;
-      border-radius: 6px;
-      transition: background-color 0.3s;
-    }
-
-    .item-carrinho button:hover {
-      background-color: #ffdddd;
-    }
-
-    #total {
-      text-align: right;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-
-    .spacer {
-      height: 20px;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 12px;
-      color: #888;
-      margin: 24px auto 12px;
-    }
-
-    .whatsapp-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #25d366;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 28px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      cursor: pointer;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-    }
-
-    .whatsapp-label {
-      position: fixed;
-      bottom: 90px;
-      right: 20px;
-      background: #25d366;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: bold;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-      white-space: nowrap;
-      z-index: 99;
-    }
-  </style>
+<style>
+  :root {
+    --rosa-claro: #ffeeee;
+    --primaria: #c75b7c;
+    --fundo: #fff;
+    --borda: #ccc;
+    --texto: #333;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    background: var(--rosa-claro);
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--texto);
+  }
+  .splash {
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: var(--rosa-claro);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+  }
+  .splash img {
+    max-width: 180px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .progress-bar {
+    width: 160px;
+    height: 8px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--primaria);
+    animation: loadBar 2s linear forwards;
+  }
+  @keyframes loadBar {
+    from { width: 0%; }
+    to { width: 100%; }
+  }
+  .app-container {
+    max-width: 480px;
+    margin: auto;
+    padding: 16px;
+    background: var(--fundo);
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  }
+  img.logo {
+    display: block;
+    margin: 0 auto;
+    max-width: 120px;
+    border-radius: 16px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.4rem;
+    margin: 16px 0;
+  }
+  form label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    font-weight: bold;
+  }
+  form input,
+  form select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    outline: none;
+  }
+  .btn-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .btn-group button,
+  button[type="submit"] {
+    flex: 1;
+    padding: 12px;
+    font-size: 1rem;
+    background: var(--primaria);
+    border: none;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .btn-group button:hover,
+  button[type="submit"]:hover {
+    background: #a74465;
+  }
+  button[disabled] {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  #listaPedidos {
+    margin-top: 16px;
+    font-size: 0.95rem;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 10px;
+    max-height: 160px;
+    overflow-y: auto;
+  }
+  .item-carrinho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+  }
+  .item-carrinho button {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 1.2rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 6px;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+  }
+  .item-carrinho button:hover {
+    background-color: #ffdddd;
+  }
+  #total {
+    text-align: right;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  .spacer { height: 20px; }
+  footer {
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+    margin: 24px auto 12px;
+  }
+  .whatsapp-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25d366;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+  .whatsapp-btn::before {
+    content: "♥";
+    color: white;
+    font-size: 28px;
+  }
+  .whatsapp-label {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    background: #25d366;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    white-space: nowrap;
+    z-index: 99;
+  }
+</style>
 </head>
 <body>
-  <div class="splash">
-    <img src="https://i.imgur.com/1W2L9KK.jpeg" alt="Logo splash" />
-    <div class="progress-bar"><div class="progress-fill"></div></div>
+
+<!-- Splash Screen -->
+<div class="splash" id="splash">
+  <img src="https://i.imgur.com/1W2L9KK.jpeg" alt="Logo Aline Vitalino" />
+  <div class="progress-bar">
+    <div class="progress-fill"></div>
   </div>
+</div>
 
-  <div class="app-container">
-    <img src="https://i.imgur.com/1W2L9KK.jpeg" alt="Logo" class="logo" />
-    <h1>Faça Sua Encomenda Aqui!</h1>
-    <form id="pedidoForm">
-      <label for="nome">Nome</label>
-      <input type="text" id="nome" required />
+<div class="app-container" style="display:none;" id="app">
 
-      <label for="telefone">Telefone</label>
-      <input type="text" id="telefone" required />
+  <img src="https://i.imgur.com/1W2L9KK.jpeg" alt="Logo" class="logo" />
 
-      <label for="data">Data</label>
-      <input type="date" id="data" disabled />
+  <h1>Faça Sua Encomenda Aqui!</h1>
 
-      <label for="produtos">Produtos</label>
-      <select id="produtos"></select>
+  <form id="pedidoForm">
+    <label for="nome">Nome *</label>
+    <input type="text" id="nome" name="nome" required />
 
-      <label for="quantidade">Quantidade</label>
-      <input type="number" id="quantidade" min="1" value="1" />
+    <label for="telefone">Telefone *</label>
+    <input
+      type="tel"
+      id="telefone"
+      name="telefone"
+      required
+      placeholder="(11) 98153-1990"
+      pattern="\\(?\\d{2}\\)?\\s?9?\\d{4}-?\\d{4}"
+      title="Formato esperado: (11) 98153-1990"
+    />
 
-      <div class="btn-group">
-        <button type="button" id="addCarrinho">Adicionar</button>
-        <button type="button" id="limpar">Apagar</button>
-      </div>
+    <label for="data">Data</label>
+    <input type="date" id="data" name="data" readonly />
 
-      <div id="listaPedidos"></div>
-      <p id="total">Total: R$ 0,00</p>
+    <label for="produto">Produto</label>
+    <select id="produto" name="produto"></select>
 
-      <label for="vendedor">Vendedor</label>
-      <input type="text" id="vendedor" value="Isa" disabled />
+    <label for="quantidade">Quantidade</label>
+    <input type="number" id="quantidade" name="quantidade" min="1" value="1" />
 
-      <div class="spacer"></div>
+    <div class="btn-group">
+      <button type="button" id="btnAdicionar">Adicionar ao Carrinho</button>
+      <button type="button" id="btnApagar">Apagar</button>
+    </div>
 
-      <input type="hidden" id="valorTotal" />
-      <button type="submit" id="fazerPedido" disabled style="width: 100%; padding: 12px; font-size: 1rem; background: #c75b7c; border: none; color: white; border-radius: 10px; cursor: pointer;">Fazer Pedido</button>
-    </form>
-    <footer>Aline Vitalino Doces Gourmet - 2025</footer>
-  </div>
+    <div class="spacer"></div>
 
-  <div class="whatsapp-label">Fale com a Aline</div>
-  <a href="https://wa.me/5511981531990" class="whatsapp-btn" target="_blank" aria-label="Fale com a Aline via WhatsApp">💚</a>
+    <div id="listaPedidos"></div>
+    <div id="total">Total: R$ 0,00</div>
 
-  <script>
-    const dataInput = document.getElementById("data");
-    const hoje = new Date();
-    dataInput.value = hoje.toISOString().split("T")[0];
+    <div class="spacer"></div>
 
-    const listaPedidos = document.getElementById("listaPedidos");
-    const totalEl = document.getElementById("total");
-    const produtosEl = document.getElementById("produtos");
-    const addBtn = document.getElementById("addCarrinho");
-    const limparBtn = document.getElementById("limpar");
-    const valorTotalInput = document.getElementById("valorTotal");
-    const btnFazerPedido = document.getElementById("fazerPedido");
+    <label for="vendedor">Vendedor</label>
+    <input type="text" id="vendedor" name="vendedor" value="Aline" readonly />
 
-    const carrinho = [];
-    const precos = {};
+    <div class="spacer"></div>
 
-    async function carregarProdutos() {
-      const res = await fetch("https://testepedidosstatus-default-rtdb.europe-west1.firebasedatabase.app/.json");
-      const dados = await res.json();
-      produtosEl.innerHTML = '<option value="">Selecione um produto</option>';
-      Object.entries(dados).forEach(([nome, preco]) => {
-        precos[nome] = preco;
-        produtosEl.innerHTML += `<option value="${nome}">${nome}</option>`;
+    <button type="submit" id="btnEnviarPedido" disabled>Fazer Pedido</button>
+  </form>
+</div>
+
+<!-- WhatsApp Button -->
+<a href="https://wa.me/5511981531990" target="_blank" rel="noopener noreferrer" class="whatsapp-btn" aria-label="Fale com a Aline no WhatsApp"></a>
+<div class="whatsapp-label">Fale com a Aline</div>
+
+<script>
+  // Splash screen logic
+  window.addEventListener('load', () => {
+    const splash = document.getElementById('splash');
+    const app = document.getElementById('app');
+    setTimeout(() => {
+      splash.style.display = 'none';
+      app.style.display = 'block';
+    }, 2100);
+  });
+
+  const produtoSelect = document.getElementById('produto');
+  const quantidadeInput = document.getElementById('quantidade');
+  const btnAdicionar = document.getElementById('btnAdicionar');
+  const btnApagar = document.getElementById('btnApagar');
+  const listaPedidosDiv = document.getElementById('listaPedidos');
+  const totalDiv = document.getElementById('total');
+  const btnEnviarPedido = document.getElementById('btnEnviarPedido');
+  const dataInput = document.getElementById('data');
+
+  // Initialize current date for date input
+  function setDataAtual() {
+    const hoje = new Date().toISOString().split('T')[0];
+    dataInput.value = hoje;
+  }
+  setDataAtual();
+
+  // Carrinho
+  let carrinho = [];
+  let produtosDB = {}; // Will hold fetched data
+
+  // Fetch produtos from Firebase Realtime Database
+  async function carregarProdutos() {
+    try {
+      const res = await fetch('https://testepedidosstatus-default-rtdb.europe-west1.firebasedatabase.app/.json');
+      if (!res.ok) throw new Error('Erro ao buscar produtos');
+      const data = await res.json();
+      produtosDB = data;
+      popularProdutos();
+    } catch (error) {
+      alert('Erro ao carregar produtos. Tente recarregar a página.');
+      console.error(error);
+    }
+  }
+
+  function popularProdutos() {
+    produtoSelect.innerHTML = '';
+    for (const produto in produtosDB) {
+      if (Object.hasOwnProperty.call(produtosDB, produto)) {
+        const preco = produtosDB[produto];
+        const option = document.createElement('option');
+        option.value = produto;
+        option.textContent = `${produto} - R$ ${preco}`;
+        produtoSelect.appendChild(option);
+      }
+    }
+  }
+
+  carregarProdutos();
+
+  // Atualiza a exibição do carrinho
+  function atualizarCarrinhoHTML() {
+    listaPedidosDiv.innerHTML = '';
+    if(carrinho.length === 0) {
+      listaPedidosDiv.textContent = 'Carrinho vazio.';
+      btnEnviarPedido.disabled = true;
+      totalDiv.textContent = 'Total: R$ 0,00';
+      return;
+    }
+
+    btnEnviarPedido.disabled = false;
+
+    carrinho.forEach((item, idx) => {
+      const divItem = document.createElement('div');
+      divItem.classList.add('item-carrinho');
+      const preco = produtosDB[item.produto] || 0;
+      divItem.textContent = `${String(idx+1).padStart(2,'0')}x ${item.produto} R$ ${(preco*item.qtd).toFixed(2)}`;
+      // Botão remover
+      const btnRemover = document.createElement('button');
+      btnRemover.type = 'button';
+      btnRemover.textContent = 'X';
+      btnRemover.title = 'Remover item';
+      btnRemover.addEventListener('click', () => {
+        carrinho.splice(idx,1);
+        atualizarCarrinhoHTML();
       });
+      divItem.appendChild(btnRemover);
+      listaPedidosDiv.appendChild(divItem);
+    });
+
+    // Atualiza total
+    let soma = 0;
+    carrinho.forEach(item => {
+      const preco = produtosDB[item.produto] || 0;
+      soma += preco*item.qtd;
+    });
+    totalDiv.textContent = 'Total: R$ ' + soma.toFixed(2);
+  }
+
+  // Evento Adicionar ao Carrinho
+  btnAdicionar.addEventListener('click', () => {
+    const produto = produtoSelect.value;
+    const qtd = parseInt(quantidadeInput.value);
+    if (!produto) {
+      alert('Selecione um produto.');
+      return;
+    }
+    if (isNaN(qtd) || qtd <= 0) {
+      alert('Informe uma quantidade válida.');
+      return;
+    }
+    // Se já existir o produto no carrinho, soma quantidade
+    const index = carrinho.findIndex(item => item.produto === produto);
+    if(index >= 0) {
+      carrinho[index].qtd += qtd;
+    } else {
+      carrinho.push({produto: produto, qtd: qtd});
+    }
+    atualizarCarrinhoHTML();
+    quantidadeInput.value = 1;
+  });
+
+  // Evento Apagar (limpar campos de produto e quantidade)
+  btnApagar.addEventListener('click', () => {
+    produtoSelect.selectedIndex = 0;
+    quantidadeInput.value = 1;
+  });
+
+  // Enviar pedido para Telegram
+  document.getElementById('pedidoForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if(carrinho.length === 0){
+      alert('Adicione pelo menos um produto ao carrinho.');
+      return;
     }
 
-    function atualizarCarrinhoHTML() {
-      listaPedidos.innerHTML = "";
-      let total = 0;
-      carrinho.forEach((item, i) => {
-        const div = document.createElement("div");
-        div.className = "item-carrinho";
-        const valor = precos[item.produto] * item.qtd;
-        total += valor;
-        div.innerHTML = `${(i + 1).toString().padStart(2, '0')}x ${item.produto} R$ ${valor.toFixed(2)} <button onclick="removerItem(${i})" aria-label="Remover item ${item.produto}">&times;</button>`;
-        listaPedidos.appendChild(div);
+    const nome = document.getElementById('nome').value.trim();
+    const telefone = document.getElementById('telefone').value.trim();
+
+    if(!nome) {
+      alert('O campo Nome é obrigatório.');
+      return;
+    }
+    if(!telefone) {
+      alert('O campo Telefone é obrigatório.');
+      return;
+    }
+    // Validação básica formato telefone (exemplo mínimo)
+    const telRegex = /\(?\d{2}\)?\s?9?\d{4}-?\d{4}/;
+    if (!telRegex.test(telefone)) {
+      alert('Telefone inválido. Use formato (11) 98153-1990');
+      return;
+    }
+
+    // Formata os itens do carrinho para a mensagem
+    const produtosTexto = carrinho.map(item => `${item.qtd}x ${item.produto}`).join(', ');
+    let soma = 0;
+    carrinho.forEach(item => {
+      const preco = produtosDB[item.produto] || 0;
+      soma += preco*item.qtd;
+    });
+    const valorTotal = soma.toFixed(2);
+
+    // Monta a mensagem para o Telegram
+    const mensagem = `NOVO PEDIDO AZUL\n=====================\n👤Cliente: ${nome}\n📞Fone: ${telefone}\n💵Valor Total: R$ ${valorTotal}\n📦Produtos: ${produtosTexto}\n=====================`;
+
+    const chatId = '7863276089';
+    const botToken = '7606421931:AAEKx9TdlH8xQAElgplPjEKq1K7Px33d4DA';
+
+    try {
+      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({chat_id: chatId, text: mensagem})
       });
-      totalEl.textContent = `Total: R$ ${total.toFixed(2)}`;
-      valorTotalInput.value = total.toFixed(2);
-      btnFazerPedido.disabled = carrinho.length === 0;
+      if (!response.ok) throw new Error('Erro na requisição');
+
+      alert('Pedido enviado com sucesso!');
+      carrinho = [];
+      atualizarCarrinhoHTML();
+      document.getElementById('pedidoForm').reset();
+      setDataAtual();
+      document.getElementById('vendedor').value = 'Aline';
+      btnEnviarPedido.disabled = true;
+    } catch (error) {
+      alert('Erro ao enviar o pedido. Tente novamente.');
+      console.error(error);
     }
+  });
+</script>
 
-    function removerItem(index) {
-      carrinho.splice(index, 1);
-      atualizarCarrinhoHTML();
-    }
+<footer>
+  Aline Vitalino Doces Gourmet - 2025
+</footer>
 
-    addBtn.addEventListener("click", () => {
-      const produto = produtosEl.value;
-      const qtd = parseInt(document.getElementById("quantidade").value);
-      if (!produto || qtd < 1) return;
-      carrinho.push({ produto, qtd });
-      atualizarCarrinhoHTML();
-    });
-
-    limparBtn.addEventListener("click", () => {
-      carrinho.length = 0;
-      atualizarCarrinhoHTML();
-    });
-
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.querySelector('.splash').style.display = 'none';
-      }, 2000);
-    });
-
-    carregarProdutos();
-
-    // Form submission handler (placeholder, you may customize as needed)
-    document.getElementById("pedidoForm").addEventListener("submit", function(event) {
-      event.preventDefault();
-      if (carrinho.length === 0) return alert("Adicione pelo menos um produto ao carrinho.");
-
-      const nome = document.getElementById("nome").value.trim();
-      const telefone = document.getElementById("telefone").value.trim();
-      const total = valorTotalInput.value;
-      const produtosTxt = carrinho.map(item => `${item.qtd}x ${item.produto}`).join(", ");
-
-      const mensagem = `Novo Pedido Azul\n-----------------------------------\n👤Cliente: ${nome}\n📞Fone: ${telefone}\n💵Valor: R$ ${total}\n📦Produtos: ${produtosTxt}\n-----------------------------------`;
-
-      // Aqui você pode implementar o envio para o Telegram via API do bot
-      // Exemplo com fetch POST para endpoint do Telegram (necessário backend ou proxy)
-
-      alert("Pedido enviado com sucesso!\n\n" + mensagem);
-
-      // Após envio, limpar carrinho e formulário (opcional)
-      carrinho.length = 0;
-      atualizarCarrinhoHTML();
-      this.reset();
-      dataInput.value = hoje.toISOString().split("T")[0]; // reset data ao padrão
-    });
-  </script>
 </body>
 </html>
