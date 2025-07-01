@@ -1,827 +1,360 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>Aline Vitalino Doces Gourmet</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Aline Vitalino Doces Gourmet</title>
+  <style>
+    :root {
+      --rosa-claro: #ffeeee;
+      --primaria: #c75b7c;
+      --fundo: #fff;
+      --borda: #ccc;
+      --texto: #333;
+    }
 
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+    * {
+      box-sizing: border-box;
+    }
 
-  /* Reset e base */
-  * {
-    margin: 0; padding: 0; box-sizing: border-box;
-  }
-  body {
-    background-color: #ffeeee;
-    font-family: 'Montserrat', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    padding: 20px 10px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  body.dark {
-    background-color: #1e1e1e;
-    color: #ddd;
-  }
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--rosa-claro);
+      font-family: 'Segoe UI', sans-serif;
+      color: var(--texto);
+    }
 
-  /* Container principal */
-  .app-container {
-    background: #fff;
-    width: 100%;
-    max-width: 420px;
-    border-radius: 24px;
-    box-shadow: 0 12px 30px rgba(179, 0, 0, 0.2);
-    padding: 25px 30px 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    color: #4a4a4a;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  body.dark .app-container {
-    background: #2b2b2b;
-    color: #ddd;
-    box-shadow: 0 12px 30px rgba(230, 90, 90, 0.7);
-  }
+    .splash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--rosa-claro);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
 
-  .logo-container img {
-    width: 140px;
-    height: auto;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    user-select: none;
-    -webkit-user-drag: none;
-  }
+    .splash img {
+      max-width: 180px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
 
-  h1 {
-    font-weight: 700;
-    font-size: 28px;
-    color: #b30000;
-    margin-bottom: 30px;
-    text-align: center;
-    letter-spacing: 0.03em;
-    user-select: none;
-    transition: color 0.3s ease;
-  }
-  body.dark h1 {
-    color: #ff6666;
-  }
+    .progress-bar {
+      width: 160px;
+      height: 8px;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+    }
 
-  form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--primaria);
+      animation: loadBar 2s linear forwards;
+    }
 
-  label {
-    font-weight: 600;
-    font-size: 14px;
-    color: inherit;
-    margin-bottom: 6px;
-    margin-left: 4px;
-    user-select: none;
-    transition: color 0.3s ease;
-  }
+    @keyframes loadBar {
+      from { width: 0%; }
+      to { width: 100%; }
+    }
 
-  input, select {
-    background-color: #fafafa;
-    border: 1.8px solid #dcdcdc;
-    border-radius: 14px;
-    padding: 14px 18px;
-    font-size: 16px;
-    color: #222;
-    margin-bottom: 10px;
-    outline-offset: 2px;
-    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-  }
-  body.dark input, body.dark select {
-    background-color: #444;
-    color: #eee;
-    border-color: #555;
-  }
-  input:focus, select:focus {
-    border-color: #b30000;
-    background-color: #fff5f5;
-    outline: none;
-    box-shadow: 0 0 8px rgba(179, 0, 0, 0.3);
-  }
-  body.dark input:focus, body.dark select:focus {
-    background-color: #5a1a1a;
-  }
-
-  input[readonly] {
-    background-color: #f9f9f9;
-    color: #888;
-    cursor: not-allowed;
-  }
-  body.dark input[readonly] {
-    background-color: #3b3b3b;
-    color: #aaa;
-  }
-
-  .inline-buttons {
-    display: flex;
-    justify-content: space-between;
-    gap: 14px;
-    margin-bottom: 30px;
-  }
-
-  button {
-    flex: 1;
-    padding: 16px 0;
-    font-size: 18px;
-    font-weight: 700;
-    border-radius: 14px;
-    border: none;
-    cursor: pointer;
-    color: white;
-    transition: background-color 0.25s ease;
-    box-shadow: 0 6px 10px rgba(0,0,0,0.07);
-    user-select: none;
-  }
-  button:active:not(:disabled) {
-    transform: scale(0.97);
-    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-  }
-  button:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-    box-shadow: none;
-  }
-
-  .add-btn {
-    background: linear-gradient(135deg, #ff7b7b, #d93e3e);
-  }
-  .add-btn:hover:not(:disabled) {
-    background: linear-gradient(135deg, #d93e3e, #ff7b7b);
-  }
-
-  .clear-btn {
-    background: #999999;
-  }
-  .clear-btn:hover:not(:disabled) {
-    background: #7a7a7a;
-  }
-
-  .order-btn {
-    background: linear-gradient(135deg, #28a745, #1e7e34);
-    margin-top: 10px;
-  }
-  .order-btn:hover:not(:disabled) {
-    background: linear-gradient(135deg, #1e7e34, #28a745);
-  }
-
-  hr {
-    border: none;
-    border-top: 1.5px solid #e2cfcf;
-    margin: 30px 0;
-    width: 100%;
-    border-radius: 6px;
-  }
-  body.dark hr {
-    border-color: #5a1a1a;
-  }
-
-  .pedido-lista {
-    width: 100%;
-    background: #fff0f0;
-    border-radius: 14px;
-    padding: 16px 20px;
-    max-height: 160px;
-    overflow-y: auto;
-    font-size: 16px;
-    color: #5a1a1a;
-    box-shadow: inset 0 0 6px rgba(179,0,0,0.1);
-    white-space: pre-wrap;
-    user-select: text;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  body.dark .pedido-lista {
-    background: #4a1a1a;
-    color: #fbbfbf;
-    box-shadow: inset 0 0 8px rgba(230, 90, 90, 0.5);
-  }
-
-  .pedido-total {
-    font-weight: 700;
-    font-size: 18px;
-    color: #b30000;
-    margin-top: 10px;
-    user-select: none;
-    text-align: right;
-    width: 100%;
-    transition: color 0.3s ease;
-  }
-  body.dark .pedido-total {
-    color: #ff8a8a;
-  }
-
-  footer {
-    margin-top: 35px;
-    font-size: 14px;
-    color: #a65d5d;
-    user-select: none;
-    text-align: center;
-    width: 100%;
-    transition: color 0.3s ease;
-  }
-  body.dark footer {
-    color: #ffbebe;
-  }
-
-  /* Scrollbar styling para lista pedidos */
-  .pedido-lista::-webkit-scrollbar {
-    width: 6px;
-  }
-  .pedido-lista::-webkit-scrollbar-thumb {
-    background-color: #b30000cc;
-    border-radius: 10px;
-  }
-  body.dark .pedido-lista::-webkit-scrollbar-thumb {
-    background-color: #ff6666cc;
-  }
-
-  /* Botão remover do carrinho */
-  .remover-item {
-    background: transparent;
-    border: none;
-    color: #b30000;
-    font-weight: 700;
-    font-size: 20px;
-    cursor: pointer;
-    margin-left: 8px;
-    vertical-align: middle;
-    transition: color 0.3s ease;
-  }
-  .remover-item:hover {
-    color: #ff4c4c;
-  }
-  body.dark .remover-item {
-    color: #ff7b7b;
-  }
-  body.dark .remover-item:hover {
-    color: #ffb0b0;
-  }
-
-  /* Mensagens de erro */
-  .erro-msg {
-    font-size: 12px;
-    color: #b30000;
-    margin-top: -14px;
-    margin-bottom: 12px;
-    user-select: none;
-    display: none;
-  }
-  .erro-msg.show {
-    display: block;
-  }
-
-  /* Botão toggle dark mode */
-  #darkModeToggle {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    background: #b30000;
-    border: none;
-    color: white;
-    border-radius: 14px;
-    padding: 8px 14px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(179,0,0,0.5);
-    user-select: none;
-    transition: background-color 0.3s ease;
-    z-index: 20;
-  }
-  #darkModeToggle:hover {
-    background: #ff4c4c;
-  }
-  body.dark #darkModeToggle {
-    background: #ff4c4c;
-  }
-  body.dark #darkModeToggle:hover {
-    background: #b30000;
-  }
-
-  /* Modal pedido enviado */
-  .modal-bg {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0,0,0,0.45);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  .modal-bg.show {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .modal {
-    background-color: #fff;
-    border-radius: 20px;
-    padding: 30px 35px;
-    max-width: 360px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(179,0,0,0.35);
-    user-select: none;
-  }
-  body.dark .modal {
-    background-color: #2f2f2f;
-    color: #fddede;
-    box-shadow: 0 20px 40px rgba(255, 100, 100, 0.5);
-  }
-  .modal h2 {
-    font-weight: 700;
-    color: #b30000;
-    margin-bottom: 20px;
-  }
-  body.dark .modal h2 {
-    color: #ff6b6b;
-  }
-  .modal p {
-    font-size: 16px;
-    margin-bottom: 28px;
-  }
-  .modal button {
-    background: linear-gradient(135deg, #28a745, #1e7e34);
-    width: 100%;
-    font-size: 18px;
-    padding: 14px 0;
-    border-radius: 14px;
-    color: white;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 0.3s ease;
-  }
-  .modal button:hover {
-    background: linear-gradient(135deg, #1e7e34, #28a745);
-  }
-
-  /* Responsividade celular */
-  @media (max-width: 400px) {
     .app-container {
-      padding: 20px 15px 30px;
-      border-radius: 20px;
+      max-width: 480px;
+      margin: auto;
+      padding: 16px;
+      background: var(--fundo);
+      border-radius: 16px 16px 0 0;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
     }
+
+    img.logo {
+      display: block;
+      margin: 0 auto;
+      max-width: 120px;
+      border-radius: 16px;
+    }
+
     h1 {
-      font-size: 24px;
-      margin-bottom: 24px;
+      text-align: center;
+      font-size: 1.4rem;
+      margin: 16px 0;
     }
-    button, .modal button {
-      font-size: 16px;
-      padding: 14px 0;
+
+    form label {
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 4px;
+      font-weight: bold;
     }
-  }
-</style>
+
+    form input,
+    form select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid var(--borda);
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .btn-group button,
+    button[type="submit"] {
+      flex: 1;
+      padding: 12px;
+      font-size: 1rem;
+      background: var(--primaria);
+      border: none;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .btn-group button:hover,
+    button[type="submit"]:hover {
+      background: #a74465;
+    }
+
+    button[disabled] {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    #listaPedidos {
+      margin-top: 16px;
+      font-size: 0.95rem;
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .item-carrinho {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .item-carrinho button {
+      background: none;
+      border: none;
+      color: red;
+      font-size: 1.2rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0 6px;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+    }
+
+    .item-carrinho button:hover {
+      background-color: #ffdddd;
+    }
+
+    #total {
+      text-align: right;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .spacer {
+      height: 20px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: #888;
+      margin: 24px auto 12px;
+    }
+
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25d366;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 28px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .whatsapp-label {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      background: #25d366;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+      white-space: nowrap;
+      z-index: 99;
+    }
+  </style>
 </head>
 <body>
+  <div class="splash">
+    <img src="https://i.imgur.com/1W2L9KK.jpeg" alt="Logo splash" />
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+  </div>
 
-  <button id="darkModeToggle" aria-label="Alternar modo escuro">Modo Escuro</button>
-
-  <div class="app-container" role="main" aria-label="Aplicativo de pedidos Aline Vitalino Doces Gourmet">
-
-    <div class="logo-container">
-      <img src="https://i.imgur.com/1W2L9KK.jpeg" alt="Logo Aline Vitalino Doces Gourmet" draggable="false" />
-    </div>
-
+  <div class="app-container">
+    <img src="https://i.imgur.com/1W2L9KK.jpeg" alt="Logo" class="logo" />
     <h1>Faça Sua Encomenda Aqui!</h1>
+    <form id="pedidoForm">
+      <label for="nome">Nome</label>
+      <input type="text" id="nome" required />
 
-    <form id="pedidoForm" novalidate>
-      <label for="nome">Nome:</label>
-      <input type="text" id="nome" name="nome" required autocomplete="name" placeholder="Digite seu nome" aria-describedby="nomeErro" />
-      <div class="erro-msg" id="nomeErro">Nome é obrigatório</div>
+      <label for="telefone">Telefone</label>
+      <input type="text" id="telefone" required />
 
-      <label for="telefone">Telefone:</label>
-      <input type="tel" id="telefone" name="telefone" required autocomplete="tel" placeholder="(99) 99999-9999" aria-describedby="telefoneErro" pattern="[\d\s\-\+\(\)]+" />
-      <div class="erro-msg" id="telefoneErro">Telefone é obrigatório e deve ser válido</div>
+      <label for="data">Data</label>
+      <input type="date" id="data" disabled />
 
-      <label for="data">Data:</label>
-      <input type="date" id="data" name="data" readonly aria-readonly="true" />
+      <label for="produtos">Produtos</label>
+      <select id="produtos"></select>
 
-      <label for="produtos">Produtos:</label>
-      <select id="produtos" name="produtos" required aria-required="true" aria-describedby="produtoErro">
-        <option value="">Carregando...</option>
-      </select>
-      <div class="erro-msg" id="produtoErro">Selecione um produto</div>
+      <label for="quantidade">Quantidade</label>
+      <input type="number" id="quantidade" min="1" value="1" />
 
-      <label for="quantidade">Quantidade:</label>
-      <input type="number" id="quantidade" name="quantidade" min="1" value="1" required aria-describedby="quantidadeErro" />
-      <div class="erro-msg" id="quantidadeErro">Quantidade deve ser maior que zero</div>
-
-      <div class="inline-buttons">
-        <button type="button" class="add-btn" aria-label="Adicionar ao carrinho" id="btnAddCarrinho" disabled>Adicionar ao Carrinho</button>
-        <button type="button" class="clear-btn" aria-label="Apagar formulário e carrinho" id="btnLimpar">Apagar</button>
+      <div class="btn-group">
+        <button type="button" id="addCarrinho">Adicionar</button>
+        <button type="button" id="limpar">Apagar</button>
       </div>
 
-      <hr />
+      <div id="listaPedidos"></div>
+      <p id="total">Total: R$ 0,00</p>
 
-      <div class="pedido-lista" id="listaPedidos" aria-live="polite" aria-relevant="additions" role="region" tabindex="0">
-        Nenhum item no carrinho.
-      </div>
+      <label for="vendedor">Vendedor</label>
+      <input type="text" id="vendedor" value="Isa" disabled />
 
-      <div class="pedido-total" id="totalPedido" aria-atomic="true">Total: R$ 0,00</div>
+      <div class="spacer"></div>
 
-      <hr />
-
-      <label for="valor">Valor Total (R$):</label>
-      <input type="number" id="valor" name="valor" readonly aria-readonly="true" />
-
-      <label for="vendedor">Vendedor:</label>
-      <input type="text" id="vendedor" name="vendedor" value="Isa" readonly aria-readonly="true" />
-
-      <button type="submit" class="order-btn" aria-label="Fazer pedido" id="btnFazerPedido" disabled>Fazer Pedido</button>
+      <input type="hidden" id="valorTotal" />
+      <button type="submit" id="fazerPedido" disabled style="width: 100%; padding: 12px; font-size: 1rem; background: #c75b7c; border: none; color: white; border-radius: 10px; cursor: pointer;">Fazer Pedido</button>
     </form>
-
-    <footer>
-      Aline Vitalino Doces Gourmet - 2025
-    </footer>
+    <footer>Aline Vitalino Doces Gourmet - 2025</footer>
   </div>
 
-  <!-- Modal Confirmação -->
-  <div class="modal-bg" id="modalConfirma">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
-      <h2 id="modalTitle">Pedido enviado com sucesso!</h2>
-      <p id="modalDesc">Obrigado pelo seu pedido. Entraremos em contato em breve.</p>
-      <button id="btnFecharModal">Fechar</button>
-    </div>
-  </div>
+  <div class="whatsapp-label">Fale com a Aline</div>
+  <a href="https://wa.me/5511981531990" class="whatsapp-btn" target="_blank" aria-label="Fale com a Aline via WhatsApp">💚</a>
 
-<script>
-  // Variáveis
-  const produtosFirebase = {};
-  const carrinho = [];
-
-  const TELEGRAM_BOT_TOKEN = '7606421931:AAEKx9TdlH8xQAElgplPjEKq1K7Px33d4DA';
-  const TELEGRAM_CHAT_ID = '7863276089';
-
-  // Elementos
-  const form = document.getElementById('pedidoForm');
-  const nomeInput = document.getElementById('nome');
-  const telefoneInput = document.getElementById('telefone');
-  const dataInput = document.getElementById('data');
-  const produtosSelect = document.getElementById('produtos');
-  const quantidadeInput = document.getElementById('quantidade');
-  const listaPedidos = document.getElementById('listaPedidos');
-  const totalPedido = document.getElementById('totalPedido');
-  const valorInput = document.getElementById('valor');
-  const vendedorInput = document.getElementById('vendedor');
-  const btnAddCarrinho = document.getElementById('btnAddCarrinho');
-  const btnLimpar = document.getElementById('btnLimpar');
-  const btnFazerPedido = document.getElementById('btnFazerPedido');
-  const darkModeToggle = document.getElementById('darkModeToggle');
-  const modalConfirma = document.getElementById('modalConfirma');
-  const btnFecharModal = document.getElementById('btnFecharModal');
-
-  // Erros
-  const erroNome = document.getElementById('nomeErro');
-  const erroTelefone = document.getElementById('telefoneErro');
-  const erroProduto = document.getElementById('produtoErro');
-  const erroQuantidade = document.getElementById('quantidadeErro');
-
-  // Inicializa data atual no campo data
-  function setDataAtual() {
+  <script>
+    const dataInput = document.getElementById("data");
     const hoje = new Date();
-    const yyyy = hoje.getFullYear();
-    const mm = String(hoje.getMonth() + 1).padStart(2, '0');
-    const dd = String(hoje.getDate()).padStart(2, '0');
-    dataInput.value = `${yyyy}-${mm}-${dd}`;
-  }
-  setDataAtual();
+    dataInput.value = hoje.toISOString().split("T")[0];
 
-  // Máscara telefone Brasil (simples)
-  telefoneInput.addEventListener('input', e => {
-    let v = e.target.value.replace(/\D/g, '');
-    if (v.length > 11) v = v.slice(0, 11);
-    let formatted = v;
-    if (v.length > 10) formatted = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
-    else if (v.length > 5) formatted = `(${v.slice(0,2)}) ${v.slice(2,6)}-${v.slice(6)}`;
-    else if (v.length > 2) formatted = `(${v.slice(0,2)}) ${v.slice(2)}`;
-    else if (v.length > 0) formatted = `(${v}`;
-    e.target.value = formatted;
-  });
+    const listaPedidos = document.getElementById("listaPedidos");
+    const totalEl = document.getElementById("total");
+    const produtosEl = document.getElementById("produtos");
+    const addBtn = document.getElementById("addCarrinho");
+    const limparBtn = document.getElementById("limpar");
+    const valorTotalInput = document.getElementById("valorTotal");
+    const btnFazerPedido = document.getElementById("fazerPedido");
 
-  // Busca produtos do Firebase
-  async function carregarProdutos() {
-    try {
-      const res = await fetch('https://testepedidosstatus-default-rtdb.europe-west1.firebasedatabase.app/.json');
-      if (!res.ok) throw new Error('Erro ao carregar produtos');
+    const carrinho = [];
+    const precos = {};
+
+    async function carregarProdutos() {
+      const res = await fetch("https://testepedidosstatus-default-rtdb.europe-west1.firebasedatabase.app/.json");
       const dados = await res.json();
-
-      produtosSelect.innerHTML = '<option value="">Selecione um produto</option>';
-      Object.entries(dados).forEach(([produto, valor]) => {
-        produtosFirebase[produto] = Number(valor);
-        produtosSelect.innerHTML += `<option value="${produto}">${produto}</option>`;
+      produtosEl.innerHTML = '<option value="">Selecione um produto</option>';
+      Object.entries(dados).forEach(([nome, preco]) => {
+        precos[nome] = preco;
+        produtosEl.innerHTML += `<option value="${nome}">${nome}</option>`;
       });
-    } catch {
-      produtosSelect.innerHTML = '<option value="">Erro ao carregar produtos</option>';
-    }
-  }
-  carregarProdutos();
-
-  // Atualiza lista e total do carrinho
-  function atualizarListaCarrinho() {
-    if (carrinho.length === 0) {
-      listaPedidos.textContent = 'Nenhum item no carrinho.';
-      totalPedido.textContent = 'Total: R$ 0,00';
-      valorInput.value = '';
-      btnFazerPedido.disabled = true;
-      return;
     }
 
-    let textoLista = '';
-    let total = 0;
-    carrinho.forEach((item, i) => {
-      const precoItem = produtosFirebase[item.produto] * item.quantidade;
-      total += precoItem;
-      textoLista += `${(i + 1).toString().padStart(2,'0')}x ${item.produto} R$ ${precoItem.toFixed(2)}`;
-      textoLista += ` <button class="remover-item" aria-label="Remover ${item.produto}" data-index="${i}">❌</button>\n`;
+    function atualizarCarrinhoHTML() {
+      listaPedidos.innerHTML = "";
+      let total = 0;
+      carrinho.forEach((item, i) => {
+        const div = document.createElement("div");
+        div.className = "item-carrinho";
+        const valor = precos[item.produto] * item.qtd;
+        total += valor;
+        div.innerHTML = `${(i + 1).toString().padStart(2, '0')}x ${item.produto} R$ ${valor.toFixed(2)} <button onclick="removerItem(${i})" aria-label="Remover item ${item.produto}">&times;</button>`;
+        listaPedidos.appendChild(div);
+      });
+      totalEl.textContent = `Total: R$ ${total.toFixed(2)}`;
+      valorTotalInput.value = total.toFixed(2);
+      btnFazerPedido.disabled = carrinho.length === 0;
+    }
+
+    function removerItem(index) {
+      carrinho.splice(index, 1);
+      atualizarCarrinhoHTML();
+    }
+
+    addBtn.addEventListener("click", () => {
+      const produto = produtosEl.value;
+      const qtd = parseInt(document.getElementById("quantidade").value);
+      if (!produto || qtd < 1) return;
+      carrinho.push({ produto, qtd });
+      atualizarCarrinhoHTML();
     });
 
-    listaPedidos.innerHTML = textoLista;
-    totalPedido.textContent = `Total: R$ ${total.toFixed(2)}`;
-    valorInput.value = total.toFixed(2);
-
-    btnFazerPedido.disabled = !validarFormularioCompleto();
-  }
-
-  // Remove item do carrinho
-  listaPedidos.addEventListener('click', e => {
-    if (e.target.classList.contains('remover-item')) {
-      const idx = Number(e.target.getAttribute('data-index'));
-      if (!isNaN(idx)) {
-        carrinho.splice(idx,1);
-        atualizarListaCarrinho();
-        verificarBotaoAdicionar();
-      }
-    }
-  });
-
-  // Validação dos campos do formulário
-  function validarNome() {
-    const valido = nomeInput.value.trim().length > 0;
-    erroNome.classList.toggle('show', !valido);
-    return valido;
-  }
-  function validarTelefone() {
-    // telefone no formato (99) 99999-9999 = 15 caracteres (com máscara)
-    // Aceitar 14 ou 15 caracteres com máscara
-    const v = telefoneInput.value.trim();
-    const regex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
-    const valido = regex.test(v);
-    erroTelefone.classList.toggle('show', !valido);
-    return valido;
-  }
-  function validarProduto() {
-    const valido = produtosSelect.value !== '';
-    erroProduto.classList.toggle('show', !valido);
-    return valido;
-  }
-  function validarQuantidade() {
-    const qtd = Number(quantidadeInput.value);
-    const valido = qtd > 0 && Number.isInteger(qtd);
-    erroQuantidade.classList.toggle('show', !valido);
-    return valido;
-  }
-
-  // Habilita botão adicionar ao carrinho só se os campos estiverem válidos
-  function verificarBotaoAdicionar() {
-    btnAddCarrinho.disabled = !(validarProduto() && validarQuantidade());
-  }
-
-  produtosSelect.addEventListener('change', verificarBotaoAdicionar);
-  quantidadeInput.addEventListener('input', () => {
-    if (quantidadeInput.value < 1) quantidadeInput.value = 1;
-    verificarBotaoAdicionar();
-  });
-
-  // Validação geral para habilitar botão Fazer Pedido
-  function validarFormularioCompleto() {
-    return carrinho.length > 0 && validarNome() && validarTelefone();
-  }
-
-  nomeInput.addEventListener('input', () => {
-    validarNome();
-    btnFazerPedido.disabled = !validarFormularioCompleto();
-  });
-  telefoneInput.addEventListener('input', () => {
-    validarTelefone();
-    btnFazerPedido.disabled = !validarFormularioCompleto();
-  });
-
-  // Adicionar item no carrinho
-  btnAddCarrinho.addEventListener('click', () => {
-    if (!validarProduto() || !validarQuantidade()) return;
-
-    const produto = produtosSelect.value;
-    const quantidade = Number(quantidadeInput.value);
-
-    // Se produto já existe, soma quantidade
-    const idxExistente = carrinho.findIndex(i => i.produto === produto);
-    if (idxExistente >= 0) {
-      carrinho[idxExistente].quantidade += quantidade;
-    } else {
-      carrinho.push({ produto, quantidade });
-    }
-
-    atualizarListaCarrinho();
-
-    // Limpar seleção produto e quantidade para 1
-    produtosSelect.value = '';
-    quantidadeInput.value = 1;
-    btnAddCarrinho.disabled = true;
-
-    // Foco no produto
-    produtosSelect.focus();
-
-    // Mensagem temporária "Item adicionado"
-    showMensagemTemporaria("Item adicionado!");
-  });
-
-  // Apagar formulário e carrinho
-  btnLimpar.addEventListener('click', () => {
-    form.reset();
-    carrinho.length = 0;
-    atualizarListaCarrinho();
-    setDataAtual();
-    btnAddCarrinho.disabled = true;
-    btnFazerPedido.disabled = true;
-    esconderMensagensErro();
-  });
-
-  function esconderMensagensErro() {
-    [erroNome, erroTelefone, erroProduto, erroQuantidade].forEach(e => e.classList.remove('show'));
-  }
-
-  // Mensagem temporária topo direito
-  let mensagemTimeout;
-  function showMensagemTemporaria(texto) {
-    if (document.querySelector('.msg-temporaria')) return; // só uma de cada vez
-    const div = document.createElement('div');
-    div.className = 'msg-temporaria';
-    div.textContent = texto;
-    Object.assign(div.style, {
-      position: 'fixed',
-      top: '10px',
-      right: '10px',
-      backgroundColor: '#28a745',
-      color: 'white',
-      padding: '10px 18px',
-      borderRadius: '12px',
-      fontWeight: '700',
-      boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
-      zIndex: 9999,
-      userSelect: 'none',
-      opacity: '0',
-      transition: 'opacity 0.3s ease',
-      fontSize: '14px',
-    });
-    document.body.appendChild(div);
-    requestAnimationFrame(() => {
-      div.style.opacity = '1';
-    });
-    clearTimeout(mensagemTimeout);
-    mensagemTimeout = setTimeout(() => {
-      div.style.opacity = '0';
-      setTimeout(() => div.remove(), 300);
-    }, 1800);
-  }
-
-  // Função para enviar pedido ao Telegram
-  async function enviarPedidoTelegram(mensagem) {
-    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-    const params = new URLSearchParams({
-      chat_id: TELEGRAM_CHAT_ID,
-      text: mensagem,
-      parse_mode: 'HTML'
+    limparBtn.addEventListener("click", () => {
+      carrinho.length = 0;
+      atualizarCarrinhoHTML();
     });
 
-    try {
-      const resp = await fetch(`${url}?${params.toString()}`, { method: 'GET' });
-      if (!resp.ok) throw new Error('Erro ao enviar');
-      return true;
-    } catch {
-      return false;
-    }
-  }
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.querySelector('.splash').style.display = 'none';
+      }, 2000);
+    });
 
-  // Envio do pedido
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+    carregarProdutos();
 
-    // Validar todos
-    const nomeValido = validarNome();
-    const telefoneValido = validarTelefone();
-    const carrinhoValido = carrinho.length > 0;
+    // Form submission handler (placeholder, you may customize as needed)
+    document.getElementById("pedidoForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      if (carrinho.length === 0) return alert("Adicione pelo menos um produto ao carrinho.");
 
-    if (!nomeValido || !telefoneValido || !carrinhoValido) {
-      if (!carrinhoValido) alert('O carrinho está vazio.');
-      return;
-    }
+      const nome = document.getElementById("nome").value.trim();
+      const telefone = document.getElementById("telefone").value.trim();
+      const total = valorTotalInput.value;
+      const produtosTxt = carrinho.map(item => `${item.qtd}x ${item.produto}`).join(", ");
 
-    // Montar mensagem Telegram
-    let listaProdutosTexto = carrinho.map(item => {
-      const precoUnit = produtosFirebase[item.produto];
-      const totalItem = precoUnit * item.quantidade;
-      return `${item.quantidade}x ${item.produto} R$ ${totalItem.toFixed(2)}`;
-    }).join('\n');
+      const mensagem = `Novo Pedido Azul\n-----------------------------------\n👤Cliente: ${nome}\n📞Fone: ${telefone}\n💵Valor: R$ ${total}\n📦Produtos: ${produtosTxt}\n-----------------------------------`;
 
-    const totalGeral = valorInput.value || '0,00';
+      // Aqui você pode implementar o envio para o Telegram via API do bot
+      // Exemplo com fetch POST para endpoint do Telegram (necessário backend ou proxy)
 
-    const mensagemTelegram = 
-`Novo Pedido Azul
------------------------------------
-👤Cliente: ${nomeInput.value.trim()}
-📞Fone: ${telefoneInput.value.trim()}
-💵Valor: R$ ${totalGeral}
-📦Produtos:
-${listaProdutosTexto}
------------------------------------`;
+      alert("Pedido enviado com sucesso!\n\n" + mensagem);
 
-    btnFazerPedido.disabled = true;
-
-    const sucesso = await enviarPedidoTelegram(mensagemTelegram);
-
-    if (sucesso) {
-      // Mostrar modal confirmação
-      modalConfirma.classList.add('show');
-      limparFormulario();
-    } else {
-      alert('Erro ao enviar o pedido. Tente novamente.');
-      btnFazerPedido.disabled = false;
-    }
-  });
-
-  // Limpar formulário e carrinho
-  function limparFormulario() {
-    form.reset();
-    carrinho.length = 0;
-    atualizarListaCarrinho();
-    setDataAtual();
-    esconderMensagensErro();
-    btnAddCarrinho.disabled = true;
-    btnFazerPedido.disabled = true;
-  }
-
-  // Fechar modal confirmação
-  btnFecharModal.addEventListener('click', () => {
-    modalConfirma.classList.remove('show');
-  });
-
-  // Alternar dark mode
-  function aplicarModoDark(enable) {
-    if (enable) {
-      document.body.classList.add('dark');
-      localStorage.setItem('modoDark', 'true');
-      darkModeToggle.textContent = 'Modo Claro';
-      darkModeToggle.setAttribute('aria-label', 'Alternar para modo claro');
-    } else {
-      document.body.classList.remove('dark');
-      localStorage.setItem('modoDark', 'false');
-      darkModeToggle.textContent = 'Modo Escuro';
-      darkModeToggle.setAttribute('aria-label', 'Alternar para modo escuro');
-    }
-  }
-
-  darkModeToggle.addEventListener('click', () => {
-    aplicarModoDark(!document.body.classList.contains('dark'));
-  });
-
-  // Persistir preferência dark mode
-  (function () {
-    const modoSalvo = localStorage.getItem('modoDark');
-    aplicarModoDark(modoSalvo === 'true');
-  })();
-
-  // Habilita ou desabilita botão adicionar conforme inputs
-  produtosSelect.addEventListener('change', verificarBotaoAdicionar);
-  quantidadeInput.addEventListener('input', verificarBotaoAdicionar);
-
-  // Atualiza botão "Fazer Pedido" sempre que nome, telefone ou carrinho mudam
-  nomeInput.addEventListener('input', () => {
-    validarNome();
-    btnFazerPedido.disabled = !validarFormularioCompleto();
-  });
-  telefoneInput.addEventListener('input', () => {
-    validarTelefone();
-    btnFazerPedido.disabled = !validarFormularioCompleto();
-  });
-
-  // Inicializa lista e total
-  atualizarListaCarrinho();
-
-</script>
+      // Após envio, limpar carrinho e formulário (opcional)
+      carrinho.length = 0;
+      atualizarCarrinhoHTML();
+      this.reset();
+      dataInput.value = hoje.toISOString().split("T")[0]; // reset data ao padrão
+    });
+  </script>
 </body>
 </html>
